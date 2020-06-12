@@ -1,0 +1,1 @@
+I'm the footer, include me in all your jsp's using jsp:include page=" "
