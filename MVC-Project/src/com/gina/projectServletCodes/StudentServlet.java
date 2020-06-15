@@ -46,18 +46,17 @@ public class StudentServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		try {
 		// read the command parameter (hidden field) submitted by form
 		String theCommand = request.getParameter("command");
 		
-		//if the command is missing, then default to listing students
-		if(theCommand==null) {
-			theCommand="LIST";
-		}
+			//if the command is missing, then default to listing students
+			if(theCommand==null) {
+				theCommand="LIST";
+			}
 		
 		
 		//routing to appropriate method - simply list/add/update
-		
-		try {
 			switch(theCommand) {
 			
 				case "LIST":
@@ -70,6 +69,10 @@ public class StudentServlet extends HttpServlet {
 					
 				case "LOAD":
 					loadStudent(request,response);
+					break;
+					
+				case "UPDATE":
+					updateStudent(request,response);
 					break;
 					
 				default:
@@ -90,6 +93,9 @@ public class StudentServlet extends HttpServlet {
 	}
 
 
+
+
+	
 
 
 	
@@ -123,11 +129,11 @@ public class StudentServlet extends HttpServlet {
 			String email = request.getParameter("email");
 		
 			//create a new student object
-			Student tempStudent = new Student(firstName, lastName,email);
+			Student theStudent = new Student(firstName, lastName,email);
 		
 			
 			//add that student into the database
-			studentDbUtil.addStudent(tempStudent);
+			studentDbUtil.addStudent(theStudent);
 		
 			
 			//send back to the main page (the student list)
@@ -155,6 +161,28 @@ public class StudentServlet extends HttpServlet {
 
 		
 	}
+	
+	private void updateStudent(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+			// read student info from form data
+			int id = Integer.parseInt(request.getParameter("studentId"));
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String email = request.getParameter("email");
+			
+			// create a new student object based on the form data
+			Student theStudent = new Student(id, firstName, lastName, email);
+			
+			// perform update operation in database
+			studentDbUtil.updateStudent(theStudent);
+			
+			// send them back to the "list students" page
+			listStudents(request, response);
+			
+		}
+	
+	
 	
 }
 

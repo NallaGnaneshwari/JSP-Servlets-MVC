@@ -17,7 +17,7 @@
 <c:set var="students" value="${students}"></c:set>  --%>
 
 	
-<h1>FooBar University</h1>
+<h1>University Of Cincinnati</h1>
 <hr>		
 
 	<div id="container">
