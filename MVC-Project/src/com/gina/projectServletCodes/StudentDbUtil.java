@@ -7,6 +7,7 @@ package com.gina.projectServletCodes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +92,39 @@ public class StudentDbUtil {
 				exc.printStackTrace();
 			}
 	
+	}
+
+	public void addStudent(Student theStudent) throws Exception{
+		
+		Connection myConn=null;
+		PreparedStatement myStmt = null;
+		//ResultSet myRs = null;
+		
+		//step 1: get a connection
+		//step 2: create/prepare a statement
+		//		set the parameter values
+		//step 3: execute the query
+		//step 4: process the result set
+		//step 5: close the jdbc objects
+		
+		try {
+			myConn = dataSource.getConnection();
+			String sql="insert into student (first_name, last_name, email) values (?,?,?)";
+			myStmt = myConn.prepareStatement(sql);
+			
+			myStmt.setString(1, theStudent.getFirstName());
+			myStmt.setString(2, theStudent.getLastName());
+			myStmt.setString(3,theStudent.getEmail());
+			
+			myStmt.execute();
+			
+		} 
+		finally 
+		{
+			close(myConn, myStmt, null);
+		}
+		
+		
 	}
 
 }

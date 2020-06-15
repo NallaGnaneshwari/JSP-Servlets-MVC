@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 public class StudentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+
 	//Reference for Instance of StudentDbUtil
 	private StudentDbUtil studentDbUtil;
 
@@ -39,20 +40,55 @@ public class StudentServlet extends HttpServlet {
 		catch (Exception exc) {
 			throw new ServletException(exc);
 		}
+		
 	}
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		try {
-		// list the students ... in mvc fashion
-		listStudents(request, response);	
+		// read the command parameter (hidden field) submitted by form
+		String theCommand = request.getParameter("command");
+		
+		//if the command is missing, then default to listing students
+		if(theCommand==null) {
+			theCommand="LIST";
 		}
+		
+		
+		//routing to appropriate method - simply list/add/update
+		
+		try {
+			switch(theCommand) {
+			
+				case "LIST":
+					listStudents(request,response);
+					break;
+				
+				case "ADD":
+					addStudent(request,response);
+					break;
+					
+				default:
+					listStudents(request,response);
+				}
+	
+		}
+		
+		//		try {
+		//		// list the students ... in mvc fashion
+		//		listStudents(request, response);	
+		//		}
+		
 		catch (Exception e) {
 			throw new ServletException(e);
 		}
 		
 	}
+
+
+
+
+	
 
 
 	private void listStudents(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -70,10 +106,38 @@ public class StudentServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		
 	}
-
 	
 
+	private void addStudent(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+			//read student info from the form data
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String email = request.getParameter("email");
+		
+			//create a new student object
+			Student tempStudent = new Student(firstName, lastName,email);
+		
+			
+			//add that student into the database
+			studentDbUtil.addStudent(tempStudent);
+		
+			
+			//send back to the main page (the student list)
+			listStudents(request,response);
+		
+			
+	}
+
+
+	
 }
+
+		
+		
+	
+
+
 
 
 
