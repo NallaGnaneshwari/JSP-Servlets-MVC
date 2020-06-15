@@ -68,6 +68,10 @@ public class StudentServlet extends HttpServlet {
 					addStudent(request,response);
 					break;
 					
+				case "LOAD":
+					loadStudent(request,response);
+					break;
+					
 				default:
 					listStudents(request,response);
 				}
@@ -86,6 +90,9 @@ public class StudentServlet extends HttpServlet {
 	}
 
 
+
+
+	
 
 
 	
@@ -130,6 +137,24 @@ public class StudentServlet extends HttpServlet {
 	}
 
 
+	private void loadStudent(HttpServletRequest request, HttpServletResponse response)throws Exception {
+		
+		//read student id from the from data
+		String theStudentId = request.getParameter("studentId");
+		
+		//get the student from db using that id (db util)
+		Student theStudent = studentDbUtil.getStudent(theStudentId);
+		
+		//give this fetched student to the JSP page by adding it to request object
+		request.setAttribute("THE_STUDENT", theStudent);
+		
+		//send the data to JSP page (update-student-form) to prepopulate
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/update-student-form.jsp");
+		dispatcher.forward(request, response);
+		
+
+		
+	}
 	
 }
 
