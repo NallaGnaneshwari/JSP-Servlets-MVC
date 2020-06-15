@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="reviseServlets">
+        
+    <wb-module deploy-name="revisedServlets">
+                
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="reviseServlets"/>
-        <property name="java-output-path" value="/reviseServlets/build/classes"/>
+                
+        <property name="java-output-path" value="/revisedServlets/build/classes"/>
+        <property name="context-root" value="revisedServlets"/>
+            
     </wb-module>
+    
 </project-modules>
