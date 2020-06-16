@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-        
-    <wb-module deploy-name="revisedMVC">
-                
-        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
-                
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-                
-        <property name="java-output-path" value="/revisedMVC/build/classes"/>
-        <property name="context-root" value="revisedMVC"/>
             
-    </wb-module>
     
+    <wb-module deploy-name="reviseMVC">
+                        
+        
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+                        
+        
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+                        
+        
+        <property name="java-output-path" value="/reviseMVC/build/classes"/>
+        <property name="context-root" value="reviseMVC"/>
+                    
+    
+    </wb-module>
+        
+
 </project-modules>
