@@ -2,6 +2,7 @@
 
 
 
+
 package com.gina.projectServletCodes;
 
 import java.sql.Connection;
@@ -17,7 +18,6 @@ public class StudentDbUtil {
 
 	//Reference to data source (for the one which comes from servlet)
 	private DataSource dataSource;
-
 
 	public StudentDbUtil(DataSource theDataSource) {
 		dataSource = theDataSource;
@@ -37,7 +37,6 @@ public class StudentDbUtil {
 		//step 3: execute the query
 		//step 4: process the result set
 		//step 5: close the database object  (use finally{} )
-
 
 		try {
 
@@ -155,7 +154,7 @@ public class StudentDbUtil {
 				String lastName = myRs.getString("last_name");
 				String email = myRs.getString("email");
 				theStudent = new Student(studentId, firstName, lastName, email);
-			}// end of if
+			}//end of if
 			else {
 				throw new Exception("Could not find student id: " + studentId);
 			}				
@@ -200,12 +199,11 @@ public class StudentDbUtil {
 		}
 	}
 
-	public void deleteStudent(String theStudentId) throws Exception{
-		
+	public void deleteStudent(String theStudentId) throws Exception {
+
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
-		int studentId = Integer.parseInt(theStudentId);
-		
+
 		//step 1: get a connection to the database
 		//step 2: create/prepare a statement
 		//		set the parameter values
@@ -214,24 +212,85 @@ public class StudentDbUtil {
 		//step 5: close all the jdbc object
 		
 		try {
-			
+
+			int studentId = Integer.parseInt(theStudentId);
 			myConn = dataSource.getConnection();
-			String sql= "delete from student where id=?";
-			myStmt= myConn.prepareStatement(sql);
-			myStmt.setInt(1,studentId);
+			String sql = "delete from student where id=?";
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setInt(1, studentId);
 			myStmt.execute();
-			
 		}
 		finally {
 			close(myConn, myStmt, null);
-		}
-		
-		
-		
-		
+		}	
 	}
 
+	public List<Student> searchStudents(String theSearchName)  throws Exception {
+
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+		int studentId;
+
+		List<Student> students = new ArrayList<>();
+
+		//step 1: get a connection
+		//step 2: create/prepare a sql statement
+		// 	set parameter values
+		//step 3: execute the query
+		//step 4: process the result set
+		//step 5: close all JDBC connections
+
+		try {
+			myConn = dataSource.getConnection();
+
+			// Only search if the searchName is not null or not an empty space
+			if (theSearchName != null && theSearchName.trim().length() > 0) {
+				String sql = "select * from student where lower(first_name) like ? or lower(last_name) like ?";
+				myStmt = myConn.prepareStatement(sql);
+				String theSearchNameLike = "%" + theSearchName.toLowerCase() + "%";
+				myStmt.setString(1, theSearchNameLike);
+				myStmt.setString(2, theSearchNameLike);
+			}
+			else
+				{
+				String sql = "select * from student order by last_name";
+				myStmt = myConn.prepareStatement(sql);
+			}
+
+
+			myRs = myStmt.executeQuery();
+
+			while (myRs.next()) {
+				int id = myRs.getInt("id");
+				String firstName = myRs.getString("first_name");
+				String lastName = myRs.getString("last_name");
+				String email = myRs.getString("email");
+
+				Student tempStudent = new Student(id, firstName, lastName, email);
+				students.add(tempStudent);			
+			}
+			
+			return students;
+		}
+		finally {
+			close(myConn, myStmt, myRs);
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -21,7 +21,7 @@
 
 
 
-<form action="StudentServlet" method="GET">
+<form action="StudentServlet" method="POST">
 
 	<input type="hidden" name="command" value="ADD"/>  <!-- hidden form field -->
 	
