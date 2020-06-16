@@ -47,7 +47,12 @@
 						<c:param name="command" value="LOAD" />
 						<c:param name="studentId" value="${tempStudent.id}" />
 					</c:url>
-																		
+								
+					<c:url var="deleteLink"	value="StudentServlet">
+					<c:param name="command" value="DELETE"></c:param>
+					<c:param name="studentId" value="${tempStudent.id}"></c:param>
+					</c:url>	
+													
 					<tr>
 						<td> ${tempStudent.firstName} </td>
 						<td> ${tempStudent.lastName} </td>
@@ -56,7 +61,10 @@
  						Making use of JSTL c:url & c:param tags -->
 						<td> 
 							<a href="${tempLink}">Update</a> 
+							|
+							<a href="${deleteLink}" onclick="if(!(confirm('Are you sure you want to delete this student?')))return false">Delete</a>
 						</td>
+						
 					</tr>
 				
 				</c:forEach>

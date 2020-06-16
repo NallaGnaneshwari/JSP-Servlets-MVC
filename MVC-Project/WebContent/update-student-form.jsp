@@ -25,7 +25,7 @@
 			<input type="hidden" name="studentId" value="${THE_STUDENT.id}" />
 			
 			<table>
-				<tr><h3>Update Student</h3></tr>
+				
 				
 				<tr>
 					<td><label>First name:</label></td>
